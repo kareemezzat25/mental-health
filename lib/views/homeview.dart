@@ -7,7 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Container(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 35),
           child: Column(

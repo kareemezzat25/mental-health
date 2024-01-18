@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mentalhealth/views/Forumsview.dart';
+import 'package:mentalhealth/views/ForumsPage.dart';
 
 class CommonDrawer extends StatelessWidget {
   @override
@@ -10,15 +10,15 @@ class CommonDrawer extends StatelessWidget {
         children: [
           const ListTile(
             leading: Icon(Icons.home_outlined),
-            title: Text("Home"),
+            title: Text("Home "),
           ),
          const  ListTile(
             leading: Icon(Icons.edit_outlined),
-            title: Text("Depression Test"),
+            title: Text("Depression Test "),
           ),
           ListTile(
             leading: const Icon(Icons.bookmark_outline_outlined),
-            title: Text("Forums"),
+            title: Text("Forums "),
             onTap: () {
               Navigator.push(
                 context,
@@ -28,7 +28,7 @@ class CommonDrawer extends StatelessWidget {
           ),
          const ListTile(
             leading: Icon(Icons.dark_mode_outlined),
-            title: Text("Night mode"),
+            title: Text("Night mode "),
           ),
         ],
       ),

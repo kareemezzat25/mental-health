@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class Button extends StatelessWidget {
   final Color buttonColor;
   final String buttonText;
   final Color textColor; // Add this line
+  Function()? onPressed;
 
-  const Button({
+   Button({
     required this.buttonColor,
     required this.buttonText,
     this.textColor = Colors.black, // Default text color is black
+    this.onPressed
   });
 
   @override
@@ -16,9 +19,8 @@ class Button extends StatelessWidget {
     return MaterialButton(
       minWidth: double.infinity,
       height: 60,
-      onPressed: () {
-        // Add your logic here
-      },
+      onPressed: onPressed
+      ,
       color: buttonColor,
       textColor: textColor, // Set text color
       shape: RoundedRectangleBorder(

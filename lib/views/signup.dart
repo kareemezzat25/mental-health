@@ -1,8 +1,81 @@
 import 'package:flutter/material.dart';
 import 'loginview.dart';
 import 'Formview.dart';
+import 'dart:convert';
+import "package:http/http.dart" as http;
+
 import 'package:mentalhealth/models/button.dart';
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
+
+  @override
+  _SignupState createState() => _SignupState();
+
+}
+class _SignupState extends State<Signup> {
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+
+ void signup() async {
+  try {
+    // API endpoint
+    final String apiUrl = 'http://mentalmediator.somee.com/api/auth/register';
+
+    
+
+    // Request data
+    Map<String, dynamic> requestData = {
+      "firstName": firstNameController.text,
+      "lastName": lastNameController.text,
+      "email": emailController.text,
+      "password": passwordController.text,
+      "birthDate": birthDateController.text,
+      "gender": genderController.text,
+    };
+
+    // Convert data to JSON
+    String requestBody = jsonEncode(requestData);
+
+    // Set headers
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+    };
+
+    // Print the request data for debugging
+    print('Request Data: $requestData');
+
+    // Perform POST request
+    final http.Response response = await http.post(
+      Uri.parse(apiUrl),
+      headers: headers,
+      body: requestBody,
+    );
+
+    // Print the response for debugging
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    // Check response status code
+    if (response.statusCode == 200) {
+      // Signup successful, handle the response accordingly
+      print('Signup successful');
+      
+    } else {
+      // Signup failed, handle the error
+      print('Signup failed. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+    }
+  } catch (error) {
+    // Handle any network or other errors
+    print('Error during signup: $error');
+  }
+}
+
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +98,9 @@ class Signup extends StatelessWidget {
           children: [
             const Column(
               children: [
-                SizedBox(height: 60),
+                
                 Text(
-                  "Sign up",
+                  "Sign Up",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -42,53 +115,42 @@ class Signup extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 60),
-            const Padding(
-              padding: EdgeInsets.only(left: 12),
-              child: Row(
-                children: [
-                  Text(
-                    "Enter username or Email address",
-                    style: TextStyle(fontSize: 15, color: Colors.grey),
-                  ),
-                ],
-              ),
-            ),
-            // TextForm(hintText: "user name or Email"),
-            TextForm(hintText: "user name or Email"),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 14),
-                        child: Text(
-                          "Enter user name",
-                          style: TextStyle(fontSize: 15, color: Colors.grey),
-                        ),
-                      ),
-                      TextForm(hintText: "user name"),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 15), // Add some space between the fields
-                Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 0),
+                    padding: const EdgeInsets.only(right: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 14),
-                          child: Text(
-                            "Enter contact number",
-                            style: TextStyle(fontSize: 15, color: Colors.grey),
-                          ),
-                        ),
-                        TextForm(hintText: "contact number"),
+                        Padding(padding:const EdgeInsets.only(left: 12), 
+                        child :Text(
+                          "Enter First Name",
+                          style: TextStyle(fontSize: 15, color: Colors.grey),
+                        ),),
+                        
+                        TextForm(
+                            hintText: "First Name", controller: firstNameController),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 15),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding( padding: const EdgeInsets.only(left: 12),
+                        child: Text(
+                          "Enter Last Name",
+                          style: TextStyle(fontSize: 15, color: Colors.grey),
+                        ),),
+                        
+                        TextForm(
+                            hintText: "Last Name", controller: lastNameController),
                       ],
                     ),
                   ),
@@ -101,36 +163,72 @@ class Signup extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    "Enter password",
+                    "Enter Email",
                     style: TextStyle(fontSize: 15, color: Colors.grey),
                   ),
                 ],
               ),
             ),
-            TextForm(hintText: "password"),
+            TextForm(hintText: "Email", controller: emailController),
+            SizedBox(height: 15),
+            const Padding(
+              padding: EdgeInsets.only(left: 12),
+              child: Row(
+                children: [
+                  Text(
+                    "Enter Password",
+                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            TextForm(hintText: "Password", controller: passwordController, isPassword: true),
+            SizedBox(height: 15),
+            const Padding(
+              padding: EdgeInsets.only(left: 12),
+              child: Row(
+                children: [
+                  Text(
+                    "Enter Birth Date",
+                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            TextForm(hintText: "yyyy-mm-dd", controller: birthDateController),
+            SizedBox(height: 15),
+            const Padding(
+              padding: EdgeInsets.only(left: 12),
+              child: Row(
+                children: [
+                  Text(
+                    "Enter Gender",
+                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            TextForm(hintText: "Male/Female", controller: genderController),
             SizedBox(height: 30),
             Button(
-              buttonColor: Color(0xff4CAF50),
-              buttonText: 'SignUp',
+              buttonColor: Color(0xff0B570E),
+              buttonText: 'Sign up',
               textColor: Colors.white,
+              onPressed: signup,
             ),
             Padding(
               padding: EdgeInsets.only(top: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?"),
+                  Text("Already have an account?",style:TextStyle(color:Color(0xff8D8D8D))),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return Login();
-                      
-                      }));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
                     },
                     child: Text(
                       " Sign in",
-                      style: TextStyle(color: Color(0xff4CAF50)),
+                      style: TextStyle(color: Color(0xff0B570E)),
                     ),
                   ),
                 ],

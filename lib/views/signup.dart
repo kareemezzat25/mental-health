@@ -93,7 +93,10 @@ class _SignupState extends State<Signup> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: 
+      Padding(
+        padding:EdgeInsets.symmetric(horizontal: 10),
+        child : SingleChildScrollView(
         child: Column(
           children: [
             const Column(
@@ -236,6 +239,7 @@ class _SignupState extends State<Signup> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

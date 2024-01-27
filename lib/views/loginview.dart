@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
   void login() async {
     try {
       // API endpoint
-       final String apiUrl = 'http://mentalmediator.somee.com/api/auth/signin';
+       final String apiUrl = 'https://mentalmediator.somee.com/api/auth/signin';
 
       // Request data
       Map<String, dynamic> requestData = {
@@ -51,6 +51,7 @@ class _LoginState extends State<Login> {
         // Login failed, handle the error
         print('Login failed. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainHome()));
       }
     } catch (error) {
       // Handle any network or other errors
@@ -144,7 +145,7 @@ class _LoginState extends State<Login> {
               buttonColor: Color(0xff0B570E),
               buttonText: 'Sign in',
               textColor: Colors.white,
-              onPressed:login
+              onPressed:login,
             ),
             SizedBox(height: 20),
             Column(

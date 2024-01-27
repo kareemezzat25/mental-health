@@ -22,7 +22,7 @@ class _SignupState extends State<Signup> {
  void signup() async {
   try {
     // API endpoint
-    final String apiUrl = 'http://mentalmediator.somee.com/api/auth/register';
+    final String apiUrl = 'https://mentalmediator.somee.com/api/auth/register';
 
     
 
@@ -63,11 +63,15 @@ class _SignupState extends State<Signup> {
       // Signup successful, handle the response accordingly
       print('Signup successful');
       
-    } else {
+    } else if(response.statusCode == 201) {
       // Signup failed, handle the error
-      print('Signup failed. Status code: ${response.statusCode}');
+      print('Signup successful. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+    }
+    else{
+      print('Signup failed. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
     }
   } catch (error) {
     // Handle any network or other errors
@@ -160,7 +164,7 @@ class _SignupState extends State<Signup> {
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 7.5),
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: Row(
@@ -173,7 +177,7 @@ class _SignupState extends State<Signup> {
               ),
             ),
             TextForm(hintText: "Email", controller: emailController),
-            SizedBox(height: 15),
+            SizedBox(height: 7.5),
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: Row(
@@ -186,7 +190,7 @@ class _SignupState extends State<Signup> {
               ),
             ),
             TextForm(hintText: "Password", controller: passwordController, isPassword: true),
-            SizedBox(height: 15),
+            SizedBox(height: 7.5),
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: Row(
@@ -199,7 +203,7 @@ class _SignupState extends State<Signup> {
               ),
             ),
             TextForm(hintText: "yyyy-mm-dd", controller: birthDateController),
-            SizedBox(height: 15),
+            SizedBox(height: 7.5),
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: Row(
@@ -212,7 +216,7 @@ class _SignupState extends State<Signup> {
               ),
             ),
             TextForm(hintText: "Male/Female", controller: genderController),
-            SizedBox(height: 30),
+            SizedBox(height: 7.5),
             Button(
               buttonColor: Color(0xff0B570E),
               buttonText: 'Sign up',
